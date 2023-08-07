@@ -33,9 +33,12 @@ export const useClientStore = defineStore('clientStore', () => {
   // 消息送达处理
   const onMessageArrived = (message: any) => {
     console.log('onMessageArrived:' + message.payloadString)
+    receivedMsg.value = message.payloadString
   }
 
-  const initClient = (currentClient:any)=>{
+  const receivedMsg = ref('')
+
+  const initClient = (currentClient: any) => {
     currentClient.onConnectionLost = onConnectionLost // 定义连接丢失方法
     currentClient.onMessageArrived = onMessageArrived // 定义消息送达方法
   }
@@ -44,11 +47,11 @@ export const useClientStore = defineStore('clientStore', () => {
     options.clientId = uuidv4()
   })
 
-  onUnmounted(()=>{
+  onUnmounted(() => {
     client.value?.disconnect()
   })
 
-  watch(client,val=>{
+  watch(client, (val) => {
     if (val) {
       initClient(client.value)
     }
@@ -56,6 +59,7 @@ export const useClientStore = defineStore('clientStore', () => {
 
   return {
     client,
-    options
+    options,
+    receivedMsg
   }
 })

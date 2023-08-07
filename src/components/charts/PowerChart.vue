@@ -1,35 +1,70 @@
 <template>
   <div ref="powerRef"
-       class=" w-1000 h-816 border-solid border-2 border-sky-500"></div>
+       class=" w-full h-816 border-solid border-2 border-sky-500 flex justify-center items-end"></div>
 </template>
 
 <script lang='ts' setup>
 import * as echarts from 'echarts'
+import { useClientStore } from '@/stores/modules/clientStore'
+import dayjs from 'dayjs'
+
+const clientStore = useClientStore()
 
 const powerRef = ref(null)
 const powerChart = ref()
-
-const init = () => {
-  powerChart.value = echarts.init(powerRef.value)
-  powerChart.value?.setOption({
-    title: {
-      text: '功率'
-    },
-     xAxis: {
+const option = ref({
+  title: {
+    text: '功率',
+    left: 'center'
+  },
+  tooltip: {
+    trigger: 'item'
+  },
+  xAxis: {
     type: 'category',
-    data: ['A', 'B', 'C']
+    data: [] as string[]
   },
   yAxis: {
     type: 'value'
   },
   series: [
     {
-      data: [120, 200, 150],
-      type: 'line'
+      data: [] as number[],
+      type: 'line',
+      label: {
+        show: true,
+        position: 'bottom',
+        textStyle: {
+          fontSize: 20
+        }
+      }
     }
   ]
-  })
+})
+
+const init = () => {
+  powerChart.value = echarts.init(powerRef.value)
+  powerChart.value?.setOption(option.value)
 }
+
+watch(() => clientStore.receivedMsg, msg => {
+  if (msg.slice(0, 3) == 'LHP') {
+    //需要小数的地方把parseInt改成parseFloat
+    const temperate = parseInt(msg.slice(3, -1))
+    option.value.series[0].data.push(temperate)
+    option.value.xAxis.data.push(dayjs().format('HH:mm:ss'))
+    powerChart.value?.setOption({
+      xAxis: {
+        data: option.value.xAxis.data
+      },
+      series: [
+        {
+          data: option.value.series[0].data
+        }
+      ]
+    })
+  }
+})
 
 onMounted(() => {
   init()

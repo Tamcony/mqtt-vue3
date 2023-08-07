@@ -20,9 +20,9 @@ const connect = () => {
         clientStore.client?.subscribe(defaultTopic);
 
         // 在连接成功后发送消息
-        const message = new Paho.Message('test');
-        message.destinationName = defaultTopic;
-        clientStore.client?.send(message);
+        // const message = new Paho.Message('test');
+        // message.destinationName = defaultTopic;
+        // clientStore.client?.send(message);
 
         loading.value = false;
       },
