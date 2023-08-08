@@ -5,6 +5,8 @@ import Components from "unplugin-vue-components/vite"
 import { AntDesignVueResolver } from "unplugin-vue-components/resolvers"
 import { resolve } from "path"
 import unocss from "unocss/vite"
+import Icons from "unplugin-icons/vite"
+import IconsResolver from "unplugin-icons/resolver"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,9 +17,14 @@ export default defineConfig({
       imports: ["vue", "vue-router"],
     }),
     Components({
-      resolvers: [AntDesignVueResolver({ importStyle: "less" })],
+      resolvers: [AntDesignVueResolver({ importStyle: "less" }), IconsResolver({ prefix: "i" })],
       dts: "./types/components.d.ts",
       include: [/\.ts$/, /\.vue$/],
+    }),
+    Icons({
+      scale: 1, // 缩放比 相对1em
+      autoInstall: true, // 自动安装
+      compiler: "vue3", // 编译方式
     }),
   ],
   resolve: {

@@ -9,18 +9,14 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AButton: typeof import('ant-design-vue/es')['Button']
-    AInput: typeof import('ant-design-vue/es')['Input']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
-    Electric: typeof import('./../src/components/charts/Electric.vue')['default']
+    Chart: typeof import('./../src/components/charts/Chart.vue')['default']
     ElectricChart: typeof import('./../src/components/charts/ElectricChart.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HumidnessChart: typeof import('./../src/components/charts/HumidnessChart.vue')['default']
     PowerChart: typeof import('./../src/components/charts/PowerChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TemperatureChart: typeof import('./../src/components/charts/TemperatureChart.vue')['default']
     VoltageChart: typeof import('./../src/components/charts/VoltageChart.vue')['default']
-    VoltageRef: typeof import('./../src/components/charts/VoltageRef.vue')['default']
   }
 }

@@ -2,7 +2,7 @@ import { useClientStore } from '@/stores/modules/clientStore'
 import { handleError } from '@/utils/handlerError'
 import Paho from 'paho-mqtt'
 
-const defaultTopic = 'test/data_topic'
+const defaultTopic = 'LHTOPIC/0301'
 
 export const useMqttClient = () => {
   const loading = ref(false)
