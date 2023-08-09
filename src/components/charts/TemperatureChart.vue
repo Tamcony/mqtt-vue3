@@ -16,7 +16,7 @@ const currentMsg = ref('')
 watch(() => clientStore.receivedMsg, msg => {
   if (msg && msg.slice(0, 3) == 'LHT') {
     currentMsg.value = msg
-    console.log(currentMsg.value)
+    // console.log(currentMsg.value)
   }
 })
 </script>

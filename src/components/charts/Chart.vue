@@ -41,6 +41,9 @@ const option = ref({
   title: {
     text: props.title,
     left: 'center',
+    textStyle: {
+      color: '#fff'
+    }
   },
   tooltip: {
     trigger: 'item'
@@ -48,21 +51,46 @@ const option = ref({
   xAxis: {
     type: 'category',
     data: [] as string[],
+    nameTextStyle: {
+      color: '#fff'
+    },
+    axisLabel: {
+      color: '#fff'
+    },
+    axisLine: {
+      lineStyle: {
+        color: '#fff'
+      }
+    },
   },
   yAxis: {
     type: 'value',
-    name: props.unit
+    name: props.unit,
+    nameTextStyle: {
+      color: '#fff'
+    },
+    axisLabel: {
+      color: '#fff'
+    },
+    axisLine: {
+      lineStyle: {
+        color: '#fff'
+      }
+    },
   },
   series: [
     {
       data: [] as number[],
       type: 'line',
       label: {
-        show: true,
+        show: false,
         position: 'top',
         textStyle: {
           fontSize: 20
         }
+      },
+      emphasis: {
+        show: true,
       },
       itemStyle: {
         color: props.lineColor
@@ -90,10 +118,14 @@ const init = (darkMode: boolean = false) => {
   }
 }
 
-watch(() => clientStore.receivedMsg, msg => {
-  console.log(msg)
+watch(() => clientStore.receivedMsg, val => {
+  // console.log(val)
   if (props.msg && chart.value) {
-    const num = parseInt(props.msg.slice(3, -1))
+    let num = 0
+    num = parseInt(props.msg.slice(3, -1))
+    if (props.msg.slice(0, 3) == 'LHI') {
+      num = num / 100
+    }
     option.value.series[0].data.push(num)
     option.value.xAxis.data.push(dayjs().format('HH:mm:ss'))
     if (option.value.series[0].data.length > 10) {
@@ -115,37 +147,37 @@ watch(() => clientStore.receivedMsg, msg => {
   deep: true
 })
 
-watch(() => systemStore.darkMode, mode => {
-  if (!chart.value) return
-  if (!mode) {
-    chart.value.setOption({
-      title: {
-        textStyle: {
-          color: '#000'
-        }
-      },
-      backgroundColor: '#f5f5f5',
-      textStyle: {
-        color: '#333',
-      },
-    })
-  } else {
-    chart.value.setOption({
-      title: {
-        textStyle: {
-          color: '#fff'
-        }
-      },
-      backgroundColor: '#000',
-      textStyle: {
-        color: '#fff',
-      },
-    })
-  }
-  console.log('darkMode changed')
-}, {
-  deep: true
-})
+// watch(() => systemStore.darkMode, mode => {
+//   if (!chart.value) return
+//   if (!mode) {
+//     chart.value.setOption({
+//       title: {
+//         textStyle: {
+//           color: '#000'
+//         }
+//       },
+//       backgroundColor: '#f5f5f5',
+//       textStyle: {
+//         color: '#333',
+//       },
+//     })
+//   } else {
+//     chart.value.setOption({
+//       title: {
+//         textStyle: {
+//           color: '#fff'
+//         }
+//       },
+//       backgroundColor: '#000',
+//       textStyle: {
+//         color: '#fff',
+//       },
+//     })
+//   }
+//   // console.log('darkMode changed')
+// }, {
+//   deep: true
+// })
 
 // watch(option.value, () => {
 //   if (!chart.value) return

@@ -1,4 +1,8 @@
-# Vue3 + Vite + Ts 模板
-<img src="https://img.shields.io/badge/node-18.10.0-green.svg" />
+# 大数据可视化
 
-组件库使用antDesignVue
+运行方式：
+
+```shell
+npm i
+npm run dev
+```
